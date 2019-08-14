@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -47,7 +48,7 @@ namespace Plot2DImage
             var content = File.ReadAllLines(ofdFileName);
             var converted = content.Select(ConvertLine).ToList();
             var polar = converted.Select(ConvertToPolarCoordinates).ToList();
-            Bitmap i = new Bitmap((int) width.Value,(int)width.Value);
+            Bitmap i = new Bitmap((int) width.Value,(int)width.Value,PixelFormat.Format4bppIndexed);
             using (var fastBitmap = i.FastLock())
             {
                 /*for (int x = 0; x < width.Value; x++)
