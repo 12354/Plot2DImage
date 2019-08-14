@@ -49,8 +49,8 @@ namespace Plot2DImage
             var converted = content.Select(ConvertLine).ToList();
             var polar = converted.Select(ConvertToPolarCoordinates).ToList();
             Bitmap i = new Bitmap((int) width.Value,(int)width.Value,PixelFormat.Format4bppIndexed);
-            using (var fastBitmap = i.FastLock())
-            {
+            /*using (var fastBitmap = i.FastLock())
+            {*/
                 /*for (int x = 0; x < width.Value; x++)
                 {
                     for (int y = 0; y < width.Value; y++)
@@ -58,21 +58,21 @@ namespace Plot2DImage
                         i.SetPixel(x,y,Color.Magenta);
                     }
                 }*/
-                fastBitmap.Clear(Color.Magenta);
+                //fastBitmap.Clear(Color.Magenta);
                 foreach (var polarIntensity in polar)
                 {
                     var x = ConvertToSquarePixel(polarIntensity.HZ);
                     var y = ConvertToSquarePixel(polarIntensity.Z);
                     var grayValue = (int) ((polarIntensity.Intensity + 20) / 30 * 255);
                     grayValue = Math.Min(255, grayValue);
-                    fastBitmap.SetPixel(x, y, Color.FromArgb(255, grayValue, grayValue, grayValue));
-                    //i.SetPixel(x, y, Color.FromArgb(255, grayValue, grayValue, grayValue));
+                    //fastBitmap.SetPixel(x, y, Color.FromArgb(255, grayValue, grayValue, grayValue));
+                    i.SetPixel(x, y, Color.FromArgb(255, grayValue, grayValue, grayValue));
                 }
-            }
+            //}
 
             i.Save("output.bmp");
+            MessageBox.Show("feddich leude");
         }
-
         private int ConvertToSquarePixel(float polarIntensity)
         {
             return (int)(polarIntensity / (Math.PI * 2) * (double) width.Value);
